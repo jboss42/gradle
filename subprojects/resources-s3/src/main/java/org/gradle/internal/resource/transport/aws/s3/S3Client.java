@@ -58,7 +58,11 @@ public class S3Client {
     }
 
     private AmazonS3Client createAmazonS3Client(AWSCredentials credentials) {
-        AmazonS3Client amazonS3Client = new AmazonS3Client(credentials, createConnectionProperties());
+        if(credentials != null) {
+            amazonS3Client = new AmazonS3Client(credentials, createConnectionProperties());
+        } else {
+            amazonS3Client = new AmazonS3Client(createConnectionProperties());
+        }
         S3ClientOptions clientOptions = new S3ClientOptions();
         Optional<URI> endpoint = s3ConnectionProperties.getEndpoint();
         if (endpoint.isPresent()) {
